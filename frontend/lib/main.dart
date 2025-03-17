@@ -26,7 +26,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  // ✅ Changed from _HomePageState to HomePageState
   String message = "Loading...";
 
   @override
