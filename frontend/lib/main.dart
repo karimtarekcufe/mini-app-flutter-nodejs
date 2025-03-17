@@ -3,7 +3,7 @@ import 'package:frontend/colors/Appcolor.dart';
 import 'listofitems.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,10 +17,44 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const MyWidget(),
         '/signup': (context) => const SignUpWidget(),
-        '/items': (context) => ListOfItemsPage(), // Add route for ListOfItemsPage
+        '/items': (context) => ListOfItemsPage(),
       },
       theme: ThemeData(
-        scaffoldBackgroundColor: Appcolor.Backgroundcolor,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.blue,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+          labelStyle: TextStyle(color: Colors.blue),
+        ),
       ),
       home: const MyWidget(),
     );
@@ -34,13 +68,7 @@ class MyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "sign in",
-          style: TextStyle(
-            color: Appcolor.Appbarcolor,
-          ),
-        ),
+        title: Text("Sign In"),
         centerTitle: false,
       ),
       body: SingleChildScrollView(
@@ -57,84 +85,59 @@ class MyWidget extends StatelessWidget {
               SizedBox(height: 40),
               Container(
                 width: double.infinity,
-                child: Row(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: "Username",
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        child: Text("Log In"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/home');
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Don't have an account? "),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signup');
+                          },
+                          child: Text("Sign Up"),
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        child: Text("Go to Items List"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/items');
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 60,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      onHover: (value) {
-                        // Handle hover
-                      },
-                      child: Text("log in"),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/home');
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Don't have an account? "),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
-                    },
-                    child: Text("Sign up"),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/items');
-                    },
-                    child: Text("Go to Items List"),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
             ],
           ),
         ),
@@ -150,13 +153,7 @@ class SignUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "sign up",
-          style: TextStyle(
-            color: Appcolor.Appbarcolor,
-          ),
-        ),
+        title: Text("Sign Up"),
         centerTitle: false,
       ),
       body: SingleChildScrollView(
@@ -167,133 +164,83 @@ class SignUpWidget extends StatelessWidget {
               SizedBox(height: 40),
               Container(
                 width: double.infinity,
-                child: Row(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: "Full Name",
-                        ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Full Name",
                       ),
                     ),
+                    SizedBox(height: 20),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Confirm Password",
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        child: Text("Sign Up"),
+                        onPressed: () {
+                          // Handle sign-up logic
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Or sign up with: "),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.g_translate),
+                          label: Text("Google"),
+                          onPressed: () {
+                            // Handle Google sign-up logic
+                          },
+                        ),
+                        SizedBox(width: 10),
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.facebook),
+                          label: Text("Facebook"),
+                          onPressed: () {
+                            // Handle Facebook sign-up logic
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: "Username",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Confirm Password",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 60,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      onHover: (value) {
-                        // Handle hover
-                      },
-                      child: Text("sign up"),
-                      onPressed: () {
-                        // Handle sign-up logic
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Or sign up with: "),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    icon: Icon(Icons.g_translate),
-                    label: Text("Google"),
-                    onPressed: () {
-                      // Handle Google sign-up logic
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton.icon(
-                    icon: Icon(Icons.facebook),
-                    label: Text("Facebook"),
-                    onPressed: () {
-                      // Handle Facebook sign-up logic
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
             ],
           ),
         ),

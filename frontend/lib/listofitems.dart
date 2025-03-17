@@ -6,20 +6,24 @@ class ListOfItemsPage extends StatefulWidget {
 }
 
 class _ListOfItemsPageState extends State<ListOfItemsPage> {
-  final List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+  final List<Map<String, dynamic>> items = [
+    {'name': 'Item 1', 'icon': Icons.laptop, 'price': 100.0},
+    {'name': 'Item 2', 'icon': Icons.phone, 'price': 50.0},
+    {'name': 'Item 3', 'icon': Icons.watch, 'price': 75.0},
+    {'name': 'Item 4', 'icon': Icons.headphones, 'price': 30.0},
+    {'name': 'Item 5', 'icon': Icons.camera, 'price': 150.0},
   ];
 
-  final List<String> shoppingBasket = [];
+  final List<Map<String, dynamic>> shoppingBasket = [];
 
-  void addItemToBasket(String item) {
+  void addItemToBasket(Map<String, dynamic> item) {
     setState(() {
       shoppingBasket.add(item);
     });
+  }
+
+  double calculateTotalPrice() {
+    return shoppingBasket.fold(0.0, (sum, item) => sum + item['price']);
   }
 
   @override
@@ -38,7 +42,15 @@ class _ListOfItemsPageState extends State<ListOfItemsPage> {
                   title: Text('Shopping Basket'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: shoppingBasket.map((item) => Text(item)).toList(),
+                    children: [
+                      ...shoppingBasket.map((item) => ListTile(
+                            leading: Icon(item['icon']),
+                            title: Text(item['name']),
+                            trailing: Text('\$${item['price']}'),
+                          )),
+                      Divider(),
+                      Text('Total: \$${calculateTotalPrice()}'),
+                    ],
                   ),
                   actions: [
                     TextButton(
@@ -56,7 +68,9 @@ class _ListOfItemsPageState extends State<ListOfItemsPage> {
         itemCount: items.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(items[index]),
+            leading: Icon(items[index]['icon'], size: 40),
+            title: Text(items[index]['name']),
+            subtitle: Text('\$${items[index]['price']}'),
             trailing: IconButton(
               icon: Icon(Icons.add_shopping_cart),
               onPressed: () => addItemToBasket(items[index]),
