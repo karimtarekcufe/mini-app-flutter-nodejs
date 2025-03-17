@@ -4,10 +4,11 @@ require("dotenv").config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors()); // Enable CORS
 
-app.get("/", (req, res) => {
-  res.send("Backend is running!");
+// Sample API Endpoint
+app.get("/api/message", (req, res) => {
+  res.json({ message: "Hello from Backend!" });
 });
 
 const PORT = process.env.PORT || 5000;
