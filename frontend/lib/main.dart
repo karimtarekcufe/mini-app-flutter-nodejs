@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -35,22 +36,39 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchMessage() async {
-    final url = Uri.parse("http://10.0.2.2:5000/api/message");
-// Update backend URL
+    setState(() {
+      message = "Attempting to connect...";
+    });
+
     try {
-      final response = await http.get(url);
+      print("Connecting to server...");
+      final url =
+          Uri.parse("http://10.0.2.2:5000/api/message"); // Updated port to 5000
+      final response = await http.get(url).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          throw TimeoutException('Connection timed out');
+        },
+      );
+
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
       if (response.statusCode == 200) {
+        final decodedData = jsonDecode(response.body);
+        print("Decoded data: $decodedData");
         setState(() {
-          message = jsonDecode(response.body)['message'];
+          message = decodedData['message'] ?? 'No message found in response';
         });
       } else {
         setState(() {
-          message = "Failed to load message";
+          message = "Server error: ${response.statusCode}\n${response.body}";
         });
       }
     } catch (e) {
+      print("Error details: $e");
       setState(() {
-        message = "Error: $e";
+        message = "Connection error: $e";
       });
     }
   }
