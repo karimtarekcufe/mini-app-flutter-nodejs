@@ -1,15 +1,24 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+
+// Load env vars
+dotenv.config();
+
+// Connect to database
+connectDB();
 
 const app = express();
-app.use(express.json());
-app.use(cors()); // Enable CORS
 
-// Sample API Endpoint
-app.get("/api/message", (req, res) => {
-  res.json({ message: "Hello from Backend!" });
-});
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// Routes
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/items', require('./routes/itemRoutes'));
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
